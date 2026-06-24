@@ -198,7 +198,7 @@ export default function StorePage() {
   // Filtering & Sorting State
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<number>(100);
+  const [priceRange, setPriceRange] = useState<number>(0);
 
   // App Navigation View
   const [currentTab, setCurrentTab] = useState<'home' | 'products' | 'about'>('home');
@@ -864,7 +864,7 @@ export default function StorePage() {
     const searchMatch = prod.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
       prod.description.toLowerCase().includes(searchTerm.toLowerCase());
     const categoryMatch = activeCategory === 'all' || prod.category === activeCategory;
-    const priceMatch = prod.price <= priceRange;
+    const priceMatch = priceRange === 0 || prod.price <= priceRange;
     return searchMatch && categoryMatch && priceMatch;
   });
 
@@ -2039,25 +2039,25 @@ export default function StorePage() {
                 </ul>
               </div>
 
-              {/* Dynamic Price slider */}
+              {/* Dynamic Price Input */}
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400">السعر الأقصى</h3>
-                  <span className="text-[11px] font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md font-bold">{priceRange} جنيه</span>
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">السعر الأقصى</h3>
+                <div className="relative">
+                  <input 
+                    id="input-filter-price"
+                    type="number"
+                    min="0"
+                    value={priceRange}
+                    onChange={(e) => setPriceRange(Number(e.target.value) || 0)}
+                    placeholder="أدخل السعر الأقصى..."
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pr-3 pl-14 text-xs font-mono text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-400"
+                    dir="ltr"
+                  />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-blue-600 pointer-events-none">جنيه</span>
                 </div>
-                <input 
-                  id="slider-filter-price"
-                  type="range" 
-                  min="10" 
-                  max="150" 
-                  value={priceRange} 
-                  onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-full accent-blue-600 h-1 bg-slate-100 rounded-lg appearance-none cursor-pointer"
-                />
-                <div className="flex justify-between mt-1.5 text-[10px] text-slate-400 font-mono">
-                  <span>10 جنيه</span>
-                  <span>150 جنيه</span>
-                </div>
+                {priceRange > 0 && (
+                  <p className="text-[10px] text-slate-400 mt-1.5">عرض المنتجات حتى {priceRange} جنيه</p>
+                )}
               </div>
 
               {/* Shipping & Support badges */}
@@ -2124,7 +2124,7 @@ export default function StorePage() {
                   <h4 className="font-bold text-slate-800 text-base">لم تعثر على بضائع مناسبة!</h4>
                   <p className="text-xs text-slate-400 max-w-sm mt-1">يرجى إعادة اختيار تصنيفات أخرى أو زيادة ميزانية البحث من شريط التحكم على الجانب.</p>
                   <button 
-                    onClick={() => { setActiveCategory('all'); setPriceRange(100); setSearchTerm(''); }}
+                    onClick={() => { setActiveCategory('all'); setPriceRange(0); setSearchTerm(''); }}
                     className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl"
                   >
                     رؤية كافة البضائع
