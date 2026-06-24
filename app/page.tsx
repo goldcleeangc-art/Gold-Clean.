@@ -106,75 +106,7 @@ interface Order {
   customerEmail?: string;
 }
 
-// Initial seed if Firebase collection is completely empty
-const SEED_PRODUCTS = [
-  {
-    name: 'منظف زجاج كريستال الأصلي',
-    description: 'تركيبة مضادة للبخار وطبقات الغبار تضمن زجاجاً شفافاً فائق النقاء والنظافة بدون أي بقع أو خطوط.',
-    price: 25.00,
-    category: 'kitchen',
-    image: 'https://images.unsplash.com/photo-1528740561666-bd247e66ad50?auto=format&fit=crop&q=80&w=600',
-    volume: '750 مل',
-    isAvailable: true,
-    rating: 4.9,
-    reviewsCount: 142
-  },
-  {
-    name: 'ملمع أخشاب طبيعي بالليمون',
-    description: 'سائل متميز لإعادة بريق الأخشاب الفاخرة بطبقة حماية طبيعية تعزل الرطوبة والأتربة بالليمون الفواح.',
-    price: 45.00,
-    category: 'surfaces',
-    image: 'https://images.unsplash.com/photo-1563453392212-326f518500b1?auto=format&fit=crop&q=80&w=600',
-    volume: '500 مل',
-    isAvailable: true,
-    rating: 4.8,
-    reviewsCount: 98
-  },
-  {
-    name: 'سائل غسيل الأطباق رغوة الألوفيرا',
-    description: 'كثافة رغوية خارقة تفتت أصعب الدهون المستعصية مع عامل ترطيب زكي لحماية يديك أثناء الغسيل.',
-    price: 18.50,
-    category: 'kitchen',
-    image: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&q=80&w=600',
-    volume: '1 لتر',
-    isAvailable: true,
-    rating: 4.7,
-    reviewsCount: 110
-  },
-  {
-    name: 'منعم ومعطر الملابس لافندر بريز',
-    description: 'لمسة فائقة النعومة على الأنسجة الحساسة مع عطر اللافندر الجبلي المركز الذي يدوم طويلاً بالملابس.',
-    price: 65.00,
-    category: 'laundry',
-    image: 'https://images.unsplash.com/photo-1610557892470-76d74482eb95?auto=format&fit=crop&q=80&w=600',
-    volume: '2 لتر',
-    isAvailable: true,
-    rating: 4.8,
-    reviewsCount: 76
-  },
-  {
-    name: 'مطهر أرضيات وسيراميك سوبر غارد',
-    description: 'يقضي تماماً على 99.9% من الجراثيم مع لمعان ناصع لكافة أنوع البلاط والرخام بالمنزل.',
-    price: 32.00,
-    category: 'sanitizers',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600',
-    volume: '1.5 لتر',
-    isAvailable: true,
-    rating: 4.5,
-    reviewsCount: 42
-  },
-  {
-    name: 'منظف الدهون والشحوم التوربيني',
-    description: 'بخاخ المطبخ الأقوى لإزالة الدهون المتراكمة على الأفران، البوتاجاز، الشفاطات والأسطح المعدنية.',
-    price: 32.00,
-    category: 'kitchen',
-    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=600',
-    volume: '500 مل',
-    isAvailable: false, // out of stock to demonstrate UI design
-    rating: 4.6,
-    reviewsCount: 55
-  }
-];
+// Initial seed if Firebase collection is completely empt
 
 export default function StorePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -494,18 +426,7 @@ export default function StorePage() {
         // Categories seeding
         const categoriesRef = collection(db, 'categories');
         const catSnap = await getDocs(categoriesRef);
-        if (catSnap.empty) {
-          console.log('Seeding initial categories...');
-          const DEFAULT_CATEGORIES = [
-            { key: 'kitchen', name: 'منظفات وعناية بالمطبخ' },
-            { key: 'laundry', name: 'مساحيق غسيل الملابس' },
-            { key: 'surfaces', name: 'تلميع الأسطح والأخشاب' },
-            { key: 'sanitizers', name: 'مطهرات ومعقمات عامة' }
-          ];
-          for (const item of DEFAULT_CATEGORIES) {
-            await addDoc(categoriesRef, item);
-          }
-        }
+        
 
         // Products seeding
         const productsRef = collection(db, 'products');
