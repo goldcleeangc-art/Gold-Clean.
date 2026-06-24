@@ -1,0 +1,107 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Reuseable global helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isManager() {
+      return isSignedIn() && 
+        (('email' in request.auth.token && request.auth.token.email == 'jalalmahmoud8000@gmail.com') ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager' ||
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')));
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+        (('email' in request.auth.token && request.auth.token.email == 'jalalmahmoud8000@gmail.com') ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation structures
+    function isValidProduct(p) {
+      return p.name is string && p.name.size() <= 200 &&
+             p.description is string && p.description.size() <= 1000 &&
+             p.price is number && p.price >= 0 &&
+             p.category is string && p.category.size() <= 50 &&
+             p.volume is string && p.volume.size() <= 50 &&
+             p.stock is number && p.stock >= 0;
+    }
+
+    function isValidOrder(o) {
+      return o.customerName is string && o.customerName.size() <= 100 &&
+             o.customerPhone is string && o.customerPhone.size() <= 30 &&
+             o.customerCity is string && o.customerCity.size() <= 60 &&
+             o.customerAddress is string && o.customerAddress.size() <= 300 &&
+             o.totalPrice is number && o.totalPrice >= 0 &&
+             o.status is string && (o.status == 'pending' || o.status == 'preparing' || o.status == 'shipping' || o.status == 'delivered' || o.status == 'cancelled') &&
+             (!('userId' in o) || o.userId is string) &&
+             (!('customerEmail' in o) || o.customerEmail is string) &&
+             (!('customerCountry' in o) || o.customerCountry is string);
+    }
+
+    function isValidUser(u) {
+      return u.email is string && u.email.size() <= 100 &&
+             u.name is string && u.name.size() <= 150 &&
+             u.role is string && (u.role == 'user' || u.role == 'manager' || u.role == 'admin');
+    }
+
+    function isValidCategory(c) {
+      return c.name is string && c.name.size() <= 100 &&
+             c.key is string && c.key.size() <= 50;
+    }
+
+    // Products Rules
+    match /products/{productId} {
+      allow read: if true;
+      allow create, delete: if isManager();
+      allow update: if isSignedIn();
+    }
+
+    // Categories Rules
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isManager() && isValidCategory(request.resource.data);
+      allow delete: if isManager();
+    }
+
+    // Users Rules
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role) || (isAdmin() && request.resource.data.role in ['user', 'manager', 'admin']);
+      allow delete: if isAdmin();
+    }
+
+    // Orders Rules
+    match /orders/{orderId} {
+      allow create: if isSignedIn() && isValidOrder(request.resource.data);
+      allow read: if isManager() || (resource.data.userId == request.auth.uid);
+      allow update: if isManager() || (
+        resource.data.userId == request.auth.uid && 
+        request.resource.data.status == 'cancelled' &&
+        resource.data.status != 'delivered' &&
+        request.resource.data.totalPrice == resource.data.totalPrice
+      );
+      allow delete: if isManager();
+    }
+  }
+}

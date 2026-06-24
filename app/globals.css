@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+html, body {
+  font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+  background-color: #F8FAFC;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes bubble {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+.bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6);
+}

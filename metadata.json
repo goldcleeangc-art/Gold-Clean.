@@ -1,0 +1,6 @@
+{
+  "name": "Gold Clean",
+  "description": "متجر إلكتروني متكامل لمنتجات المنظفات المتميزة مع ربط بالـ Firebase لتخزين وسحب سلة الشراء والطلبات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

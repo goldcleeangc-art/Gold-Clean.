@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Premium cleaning detergent product",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Product name" },
+        "description": { "type": "string", "description": "Detailed description" },
+        "price": { "type": "number", "description": "Price in SAR" },
+        "category": { "type": "string", "description": "Category key" },
+        "image": { "type": "string", "description": "Product image URL" },
+        "volume": { "type": "string", "description": "Product volume (e.g. 750 ml)" },
+        "stock": { "type": "number", "description": "Available stock quantity" },
+        "rating": { "type": "number", "description": "Average user rating" },
+        "reviewsCount": { "type": "number", "description": "Total reviews count" }
+      },
+      "required": ["name", "price", "category", "volume", "stock"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Soap store purchase order",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string", "description": "Customer display name" },
+        "customerPhone": { "type": "string", "description": "Customer mobile phone" },
+        "customerCity": { "type": "string", "description": "Delivery city" },
+        "customerAddress": { "type": "string", "description": "Street block details" },
+        "notes": { "type": "string", "description": "Delivery notes" },
+        "items": {
+          "type": "array",
+          "description": "Ordered line items"
+        },
+        "totalPrice": { "type": "number", "description": "Total order price" },
+        "status": { "type": "string", "enum": ["pending", "preparing", "shipping", "delivered", "cancelled"] },
+        "userId": { "type": "string", "description": "Gmail authenticated user UID" },
+        "customerEmail": { "type": "string", "description": "Gmail email address" },
+        "createdAt": { "type": "object", "format": "timestamp" }
+      },
+      "required": ["customerName", "customerPhone", "customerCity", "customerAddress", "items", "totalPrice", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Store customer or manager profile",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Google authenticated Gmail email" },
+        "name": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "description": "Profile picture URL" },
+        "role": { "type": "string", "enum": ["user", "manager"] },
+        "updatedAt": { "type": "object", "format": "timestamp" }
+      },
+      "required": ["email", "name", "role"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Store detergent categories customized by manager",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Arabic display name of category" },
+        "key": { "type": "string", "description": "Unique category key slug" }
+      },
+      "required": ["name", "key"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Detergent catalog products"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer checkout orders"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Google authenticated users registry with roles"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Custom store categories list"
+    }
+  }
+}
