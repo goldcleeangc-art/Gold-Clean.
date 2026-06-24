@@ -431,12 +431,7 @@ export default function StorePage() {
         // Products seeding
         const productsRef = collection(db, 'products');
         const prodSnap = await getDocs(productsRef);
-        if (prodSnap.empty) {
-          console.log('Seeding initial products...');
-          for (const item of SEED_PRODUCTS) {
-            await addDoc(productsRef, item);
-          }
-        }
+        
       } catch (error) {
         console.error('Error during manager seeding check:', error);
       }
