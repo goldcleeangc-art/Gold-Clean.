@@ -684,7 +684,7 @@ export default function StorePage() {
           quantity: item.quantity,
           price: item.product.price
         })),
-        totalPrice: getSubtotal() + 15, // 15 SAR standard delivery
+        totalPrice: getSubtotal() + 15, // 15 EGP standard delivery
         status: 'pending',
         createdAt: serverTimestamp(),
         userId: user.uid,
@@ -889,7 +889,7 @@ export default function StorePage() {
         "keywords": p.seoKeywords || undefined,
         "offers": {
           "@type": "Offer",
-          "priceCurrency": "SAR",
+          "priceCurrency": "EGP",
           "price": p.price,
           "availability": "https://schema.org/InStock"
         }
@@ -1203,7 +1203,7 @@ export default function StorePage() {
                                   {ord.items.map((it, idx) => (
                                     <li key={idx} className="flex justify-between text-[11px]">
                                       <span>• {it.productName} (الكمية: {it.quantity})</span>
-                                      <span className="font-mono text-slate-700 font-bold">{it.price.toFixed(2)} ريال</span>
+                                      <span className="font-mono text-slate-700 font-bold">{it.price.toFixed(2)} جنيه</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -1215,7 +1215,7 @@ export default function StorePage() {
                               </div>
 
                               <div className="flex justify-between items-center text-[11px] pt-1 border-t border-slate-50">
-                                <span className="font-extrabold text-blue-600 bg-blue-50/30 px-3 py-1 rounded-lg">الحساب الإجمالي: {ord.totalPrice.toFixed(2)} ريال</span>
+                                <span className="font-extrabold text-blue-600 bg-blue-50/30 px-3 py-1 rounded-lg">الحساب الإجمالي: {ord.totalPrice.toFixed(2)} جنيه</span>
                                 <div>
                                   {orderToDelete === ord.id ? (
                                     <div className="flex items-center gap-1.5 bg-rose-50/80 p-1.5 rounded-lg border border-rose-100 duration-200">
@@ -1322,7 +1322,7 @@ export default function StorePage() {
 
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                              <label className="block text-[10px] text-slate-500 mb-1">السعر النهائي بالريال *</label>
+                              <label className="block text-[10px] text-slate-500 mb-1">السعر النهائي بالجنيه المصري *</label>
                               <input 
                                 type="number" required
                                 value={productForm.price}
@@ -1500,7 +1500,7 @@ export default function StorePage() {
                               <div>
                                 <h6 className="font-bold text-slate-800 text-xs">{p.name}</h6>
                                 <span className="text-[10px] text-slate-400 block mt-0.5">
-                                  السعر: {p.price} ريال • متوفر: {p.isAvailable ? 'نعم' : 'لا'}
+                                  السعر: {p.price} جنيه • متوفر: {p.isAvailable ? 'نعم' : 'لا'}
                                 </span>
                               </div>
                             </div>
@@ -1718,7 +1718,7 @@ export default function StorePage() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-white p-5 rounded-2xl border border-slate-150/80 text-right space-y-1 shadow-2xs">
                           <span className="block text-slate-400 text-[10px] uppercase tracking-wider font-bold">إجمالي المبيعات المؤكدة</span>
-                          <span className="text-xl font-black text-blue-600 font-mono block pt-0.5">{totalSalesValue.toFixed(2)} ريال</span>
+                          <span className="text-xl font-black text-blue-600 font-mono block pt-0.5">{totalSalesValue.toFixed(2)} جنيه</span>
                           <span className="text-[9px] text-emerald-500 font-semibold flex items-center gap-1">• تشمل كافة عمليات المحاسبة</span>
                         </div>
 
@@ -1878,7 +1878,7 @@ export default function StorePage() {
                           />
                       </div>
                       <h5 className="font-bold text-slate-800 text-xs line-clamp-1 mb-1">{product.name}</h5>
-                      <span className="text-blue-600 font-mono font-black text-sm block mt-auto">{product.price.toFixed(2)} ريال</span>
+                      <span className="text-blue-600 font-mono font-black text-sm block mt-auto">{product.price.toFixed(2)} جنيه</span>
                     </div>
                   ))}
                   {products.length === 0 && (
@@ -2043,7 +2043,7 @@ export default function StorePage() {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400">السعر الأقصى</h3>
-                  <span className="text-[11px] font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md font-bold">{priceRange} ريال</span>
+                  <span className="text-[11px] font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md font-bold">{priceRange} جنيه</span>
                 </div>
                 <input 
                   id="slider-filter-price"
@@ -2055,8 +2055,8 @@ export default function StorePage() {
                   className="w-full accent-blue-600 h-1 bg-slate-100 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between mt-1.5 text-[10px] text-slate-400 font-mono">
-                  <span>10 ريال</span>
-                  <span>150 ريال</span>
+                  <span>10 جنيه</span>
+                  <span>150 جنيه</span>
                 </div>
               </div>
 
@@ -2191,7 +2191,7 @@ export default function StorePage() {
                             <div className="flex flex-col text-right">
                               <span className="text-[10px] text-slate-400">السعر النهائي</span>
                               <span className="text-base font-bold text-blue-600 block leading-none mt-0.5">
-                                {product.price.toFixed(2)} <span className="text-xs font-normal">ريال</span>
+                                {product.price.toFixed(2)} <span className="text-xs font-normal">جنيه</span>
                               </span>
                             </div>
 
@@ -2289,7 +2289,7 @@ export default function StorePage() {
                     <span className="text-xs text-slate-400">({selectedProductDetails.reviewsCount} تقييم)</span>
                   </div>
                   <div className="text-xl font-black text-blue-600">
-                    {selectedProductDetails.price.toFixed(2)} <span className="text-sm font-normal text-slate-500">ريال</span>
+                    {selectedProductDetails.price.toFixed(2)} <span className="text-sm font-normal text-slate-500">جنيه</span>
                   </div>
                 </div>
 
@@ -2426,7 +2426,7 @@ export default function StorePage() {
                             <span className="text-xs font-bold px-1.5">{item.quantity}</span>
                             <button onClick={() => handleUpdateQty(item.product.id, 1)} className="p-0.5 hover:text-blue-600"><Plus className="w-3 h-3" /></button>
                           </div>
-                          <span className="text-xs font-bold text-slate-800">{(item.product.price * item.quantity).toFixed(2)} ريال</span>
+                          <span className="text-xs font-bold text-slate-800">{(item.product.price * item.quantity).toFixed(2)} جنيه</span>
                         </div>
                       </div>
 
@@ -2444,15 +2444,15 @@ export default function StorePage() {
                   <div className="space-y-1.5 text-xs">
                     <div className="flex justify-between text-slate-500">
                       <span>إجمالي المنتجات ({cart.reduce((c, i) => c + i.quantity, 0)})</span>
-                      <span>{getSubtotal().toFixed(2)} ريال</span>
+                      <span>{getSubtotal().toFixed(2)} جنيه</span>
                     </div>
                     <div className="flex justify-between text-slate-500">
                       <span>الشحن والتوصيل للمنزل</span>
-                      <span>15.00 ريال</span>
+                      <span>15.00 جنيه</span>
                     </div>
                     <div className="flex justify-between text-slate-900 font-bold pt-2 border-t border-slate-200">
                       <span>المبلغ المستحق</span>
-                      <span className="text-blue-600 text-sm">{(getSubtotal() + 15).toFixed(2)} ريال</span>
+                      <span className="text-blue-600 text-sm">{(getSubtotal() + 15).toFixed(2)} جنيه</span>
                     </div>
                   </div>
 
@@ -2521,7 +2521,7 @@ export default function StorePage() {
                     <p><strong>رقم المرجع للطلب:</strong> <span className="font-mono text-blue-600 text-sm">{successOrder.id}</span></p>
                     <p><strong>اسم العميل:</strong> {successOrder.customerName}</p>
                     <p><strong>طريقة الدفع:</strong> نقدي عند التوصيل للمنزل (COD)</p>
-                    <p><strong>المبلغ المستحق للدفع:</strong> {successOrder.totalPrice.toFixed(2)} ريال</p>
+                    <p><strong>المبلغ المستحق للدفع:</strong> {successOrder.totalPrice.toFixed(2)} جنيه</p>
                   </div>
 
                   <button 
@@ -2623,7 +2623,7 @@ export default function StorePage() {
                       <p className="font-extrabold text-blue-600 mb-0.5">القيمة الإجمالية للطلب:</p>
                       <p className="text-[10px] text-slate-400">بما فيها رسوم التوصيل السريع للمنزل</p>
                     </div>
-                    <span className="text-base font-black text-slate-950">{(getSubtotal() + 15).toFixed(2)} ريال</span>
+                    <span className="text-base font-black text-slate-950">{(getSubtotal() + 15).toFixed(2)} جنيه</span>
                   </div>
 
                   <button 
@@ -2833,7 +2833,7 @@ export default function StorePage() {
                                 </div>
                                 <div className="text-left">
                                   <span className="block text-[9px] text-slate-400 leading-none">إجمالي الحساب (COD)</span>
-                                  <span className="text-sm font-black text-blue-600 font-mono inline-block mt-1">{order.totalPrice.toFixed(2)} ريال</span>
+                                   <span className="text-sm font-black text-blue-600 font-mono inline-block mt-1">{order.totalPrice.toFixed(2)} جنيه</span>
                                 </div>
                               </div>
 

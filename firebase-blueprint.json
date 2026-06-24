@@ -7,7 +7,7 @@
       "properties": {
         "name": { "type": "string", "description": "Product name" },
         "description": { "type": "string", "description": "Detailed description" },
-        "price": { "type": "number", "description": "Price in SAR" },
+        "price": { "type": "number", "description": "Price in EGP" },
         "category": { "type": "string", "description": "Category key" },
         "image": { "type": "string", "description": "Product image URL" },
         "volume": { "type": "string", "description": "Product volume (e.g. 750 ml)" },
