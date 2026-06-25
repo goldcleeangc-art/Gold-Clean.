@@ -1,49 +1,65 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const SEO_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      return NextResponse.json(
+        { error: "GEMINI_API_KEY is not configured" },
+        { status: 500 }
+      );
+    }
+
     const { name, description } = await req.json();
+    if (!name || !description) {
+      return NextResponse.json(
+        { error: "Product name and description are required" },
+        { status: 400 }
+      );
+    }
 
-    const prompt = `أنت خبير في تحسين محركات البحث (SEO). 
-قم بتوليد بيانات SEO لمنتج باللغة العربية بناءً على المعلومات التالية:
-اسم المنتج: ${name}
-وصف المنتج: ${description}
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const prompt = `You are an Arabic SEO expert.
+Generate SEO data in Arabic for this product:
+Product name: ${name}
+Product description: ${description}
 
-المطلوب إرجاعه هو JSON بالصيغة التالية فقط بدون أي نصوص إضافية:
+Return only valid JSON with this exact shape:
 {
-  "seoTitle": "عنوان مناسب لمحركات البحث (لا يتجاوز 60 حرف)",
-  "seoDescription": "وصف مناسب لمحركات البحث (لا يتجاوز 160 حرف)",
-  "seoKeywords": "كلمات مفتاحية مفصولة بفواصل"
+  "seoTitle": "Arabic SEO title, max 60 characters",
+  "seoDescription": "Arabic SEO meta description, max 160 characters",
+  "seoKeywords": "Arabic keywords separated by commas"
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: SEO_MODEL,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
-      }
+      },
     });
 
     const text = response.text || "";
     let data;
+
     try {
-        data = JSON.parse(text);
-    } catch(e) {
-        // Fallback in case of parsing error
-        const match = text.match(/\{[\s\S]*\}/);
-        if (match) {
-            data = JSON.parse(match[0]);
-        } else {
-            throw new Error("Invalid JSON response from AI");
-        }
+      data = JSON.parse(text);
+    } catch {
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) {
+        throw new Error("Invalid JSON response from AI");
+      }
+      data = JSON.parse(match[0]);
     }
-    
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("SEO generation error:", error);
-    return NextResponse.json({ error: "Failed to generate SEO data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate SEO data" },
+      { status: 500 }
+    );
   }
 }

@@ -750,8 +750,10 @@ export default function StorePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: productForm.name, description: productForm.description }),
       });
-      if (!response.ok) throw new Error('Failed to generate SEO data');
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate SEO data');
+      }
       setProductForm({
         ...productForm,
         seoTitle: data.seoTitle || productForm.seoTitle,
