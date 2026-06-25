@@ -786,8 +786,8 @@ export default function StorePage() {
         ...productForm,
         price: Number(productForm.price),
         isAvailable: Boolean(productForm.isAvailable),
-        rating: editingProduct ? editingProduct.rating : 4.8,
-        reviewsCount: editingProduct ? editingProduct.reviewsCount : 12,
+        rating: editingProduct ? editingProduct.rating : 0,
+        reviewsCount: editingProduct ? editingProduct.reviewsCount : 0,
         image: productForm.image || 'https://images.unsplash.com/photo-1563453392212-326f518500b1?auto=format&fit=crop&q=80&w=600'
       };
 
@@ -2296,11 +2296,17 @@ export default function StorePage() {
                 </h2>
                 
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-1.5">
-                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    <span className="text-sm font-bold text-slate-700">{selectedProductDetails.rating}</span>
-                    <span className="text-xs text-slate-400">({selectedProductDetails.reviewsCount} تقييم)</span>
-                  </div>
+                  {Object.keys(selectedProductDetails.ratingsMap || {}).length > 0 ? (
+                    <div className="flex items-center gap-1.5">
+                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm font-bold text-slate-700">{selectedProductDetails.rating}</span>
+                      <span className="text-xs text-slate-400">({Object.keys(selectedProductDetails.ratingsMap || {}).length} تقييم)</span>
+                    </div>
+                  ) : (
+                    <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
+                      لا توجد تقييمات بعد
+                    </span>
+                  )}
                   <div className="text-xl font-black text-blue-600">
                     {selectedProductDetails.price.toFixed(2)} <span className="text-sm font-normal text-slate-500">جنيه</span>
                   </div>
