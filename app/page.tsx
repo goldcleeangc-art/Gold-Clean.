@@ -312,7 +312,7 @@ export default function StorePage() {
           url.searchParams.set('product', selectedProductDetails.id);
           changed = true;
         }
-      } else {
+      } else if (selectedProductDetails) {
         if (url.searchParams.has('product')) {
           url.searchParams.delete('product');
           changed = true;
@@ -331,8 +331,11 @@ export default function StorePage() {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get('tab');
       const category = params.get('category');
+      const productId = params.get('product');
       
-      if (tab === 'products' || tab === 'about') {
+      if (productId) {
+        setCurrentTab('products');
+      } else if (tab === 'products' || tab === 'about') {
         setCurrentTab(tab);
       }
       
@@ -350,6 +353,7 @@ export default function StorePage() {
       if (productId && !isProductDetailsOpen) {
         const prod = products.find(p => p.id === productId);
         if (prod) {
+          setCurrentTab('products');
           setSelectedProductDetails(prod);
           setIsProductDetailsOpen(true);
         }
