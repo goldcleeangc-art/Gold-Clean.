@@ -762,7 +762,8 @@ export default function StorePage() {
       });
     } catch (e) {
       console.error(e);
-      alert('حدث خطأ أثناء توليد بيانات SEO');
+      const message = e instanceof Error ? e.message : 'Failed to generate SEO data';
+      alert(`حدث خطأ أثناء توليد بيانات SEO: ${message}`);
     } finally {
       setIsGeneratingSeo(false);
     }

@@ -3,6 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SEO_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
 
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Unknown error";
+}
+
 export async function POST(req: NextRequest) {
   try {
     if (!process.env.GEMINI_API_KEY) {
@@ -57,8 +65,10 @@ Return only valid JSON with this exact shape:
     return NextResponse.json(data);
   } catch (error) {
     console.error("SEO generation error:", error);
+    const message = getErrorMessage(error);
+
     return NextResponse.json(
-      { error: "Failed to generate SEO data" },
+      { error: `Failed to generate SEO data: ${message}` },
       { status: 500 }
     );
   }
