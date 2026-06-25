@@ -750,7 +750,13 @@ export default function StorePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: productForm.name, description: productForm.description }),
       });
-      const data = await response.json();
+      const rawResponse = await response.text();
+      let data: { error?: string; seoTitle?: string; seoDescription?: string; seoKeywords?: string } = {};
+      try {
+        data = rawResponse ? JSON.parse(rawResponse) : {};
+      } catch {
+        data = { error: rawResponse || 'Failed to generate SEO data' };
+      }
       if (!response.ok) {
         throw new Error(data.error || 'Failed to generate SEO data');
       }

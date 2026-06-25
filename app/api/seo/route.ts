@@ -1,11 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
-const SEO_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const SEO_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) {
     return error.message;
+  }
+
+  if (typeof error === "object" && error !== null) {
+    try {
+      return JSON.stringify(error);
+    } catch {
+      return "Unknown object error";
+    }
   }
 
   return "Unknown error";
