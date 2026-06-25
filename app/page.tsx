@@ -1883,7 +1883,7 @@ export default function StorePage() {
                         <img 
                             src={product.image || 'https://images.unsplash.com/photo-1563453392212-326f518500b1?auto=format&fit=crop&q=80&w=600'} 
                             alt={product.name} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform"
                           />
                       </div>
                       <h5 className="font-bold text-slate-800 text-xs line-clamp-1 mb-1">{product.name}</h5>
@@ -2173,7 +2173,7 @@ export default function StorePage() {
                           <img 
                             src={product.image || 'https://images.unsplash.com/photo-1563453392212-326f518500b1?auto=format&fit=crop&q=80&w=600'} 
                             alt={product.name} 
-                            className="w-full h-full object-cover transition-transform group-hover:scale-103 relative"
+                            className="w-full h-full object-contain p-2 transition-transform group-hover:scale-103 relative"
                           />
                         </div>
 
@@ -2260,7 +2260,7 @@ export default function StorePage() {
                 <img 
                   src={selectedProductDetails.image || 'https://images.unsplash.com/photo-1563453392212-326f518500b1?auto=format&fit=crop&q=80&w=1000'}
                   alt={selectedProductDetails.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain p-4"
                 />
                 
                 <button 
