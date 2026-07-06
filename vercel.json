@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/portfolio",
+      "destination": "https://jalalmahmoud8000-debug.github.io/gcport/"
+    },
+    {
+      "source": "/portfolio/:path*",
+      "destination": "https://jalalmahmoud8000-debug.github.io/gcport/:path*"
+    }
+  ]
+}
