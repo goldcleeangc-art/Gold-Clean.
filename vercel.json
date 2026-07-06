@@ -7,6 +7,10 @@
     {
       "source": "/portfolio/:path*",
       "destination": "https://jalalmahmoud8000-debug.github.io/gcport/:path*"
+    },
+    {
+      "source": "/gcport/:path*",
+      "destination": "https://jalalmahmoud8000-debug.github.io/gcport/:path*"
     }
   ]
 }
