@@ -965,7 +965,11 @@ export default function StorePage() {
               منتجاتنا
             </button>
             <button 
-              onClick={() => { setCurrentTab('about'); setIsMerchantOpen(false); }} 
+              onClick={() => { 
+                setCurrentTab('about'); 
+                setIsMerchantOpen(false); 
+                window.open('https://portfolio.g-c.store', '_blank', 'noopener,noreferrer'); 
+              }} 
               className={`${currentTab === 'about' && !isMerchantOpen ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-blue-600 border-b-2 border-transparent'} pb-2.5 pt-1.5 transition-colors`}
             >
               عن الشركة
